@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap-rtl.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+
+    <title><%= pageTitle %></title>
+</head>
+<body>
+    <div class="form-group">
+        <h1>Todo List</h1>
+        <form 
+            action="/admin/add-todo"
+            role="form"
+            class="row w-50 justify-content-center mx-auto"
+            method="POST"
+        >
+            <div class="input-group">
+                <input 
+                    type="text"
+                    name="todo"
+                    class="form-control w-50"
+                    placeholder="write your todo"
+                >
+                <div class="input-group-prepend">
+                    <button 
+                        type="submit" 
+                        class="btn btn-primary fa fa-plus"
+                    >
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="mt-2 mx-auto w-50 mb-3 alert alert-primary row">
+            <p class="d-inline col">
+                Completed Todos : 
+                <span class="badge badge-success badge-fill"><%= isCompleted %></span>
+            </p class="d-inline col">
+            <p>
+                Remaining Todos : <span class="badge badge-warning badge-fill"><%= isntCompleted %></span>
+            </p>
+        </div>
+        
+        <% if(todos.length > 0){ %>
+            <div class="mt-5 text-white d-flex justify-content-between w-50 mx-auto bg-info p-2">
+                <div class="col-2">TodoName</div>
+                <div class="col-2">Todo Utils</div>
+            </div>
+
+            <% for(let todo of todos){ %>
+                <div class="w-50 mx-auto bg-light border my-2 px-3 py-2 text-monospace
+                d-flex align-items-center justify-content-between">
+                    <h5 class="h6">
+                        <% if(todo.isComplete){ %>
+                            <del><%= todo.id %> - <%= todo.text %></del>
+                        <%} else {%>
+                            <%= todo.id %> - <%= todo.text %>
+                        <% } %>
+                    </h5>
+
+                    <div>
+                        <a 
+                            href="/admin/remove-todo/<%= todo.id %>" 
+                            class="mx-1 close fa fa-trash border p-2" 
+                            style="color: rgb(156, 7, 7);"
+                        ></a>
+                        <a 
+                            href="/admin/completed-todo/<%= todo.id %>" 
+                            class="mx-1 close <%= todo.isComplete ? 'fa fa-rotate-right' : 'fa fa-check' %> border p-2" 
+                            style="color: rgb(14, 164, 14);"
+                        ></a>
+                    </div>
+                </div>
+            <% }  %>
+        <% }else { %>
+            
+            <div class="alert alert-warning w-50 mx-auto text-center" role="alert">
+                <h4 class="alert-heading">Dont have any work for today</h4>
+                <p>You can write any exersice for do that</p>
+                <hr>
+                <p class="mb-0">OMID PISHKAR <span class="fa fa-heart  text-danger"></span></p>
+            </div>
+
+        <% } %>
+        
+    </div>
+</body>
+</html>
